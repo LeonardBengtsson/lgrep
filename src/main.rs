@@ -1,4 +1,4 @@
-use leben_regex::UnicodeCodepoint;
+use lregex::UnicodeCodepoint;
 use std::io::Read;
 
 fn main() -> Result<(), anyhow::Error> {
@@ -7,12 +7,12 @@ fn main() -> Result<(), anyhow::Error> {
         anyhow::bail!("Usage: EXE <regex>");
     }
     let regex_format_string = args.get(1).unwrap().as_encoded_bytes();
-    let regex = leben_regex::Regex::new(regex_format_string)?;
+    let regex = lregex::Regex::new(regex_format_string)?;
 
     let mut buffer = Vec::new();
     std::io::stdin().read_to_end(&mut buffer)?;
 
-    let string = leben_regex::decode_utf8(&buffer)?;
+    let string = lregex::decode_utf8(&buffer)?;
 
     if let Some((match_index, len)) = regex.find(&string) {
         let match_end = match_index + len;
@@ -20,15 +20,15 @@ fn main() -> Result<(), anyhow::Error> {
         let print_end = find_lf(&string, match_end);
         print!(
             "{}",
-            leben_regex::encode_utf8_string(&string[print_start..match_index])
+            lregex::encode_utf8_string(&string[print_start..match_index])
         );
         print!(
             "\x1b[91m{}\x1b[m",
-            leben_regex::encode_utf8_string(&string[match_index..match_end])
+            lregex::encode_utf8_string(&string[match_index..match_end])
         );
         println!(
             "{}",
-            leben_regex::encode_utf8_string(&string[match_end..print_end])
+            lregex::encode_utf8_string(&string[match_end..print_end])
         );
     } else {
         println!("No match found!");
