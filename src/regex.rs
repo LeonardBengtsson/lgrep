@@ -140,6 +140,14 @@ impl Regex {
                     earliest_match = current_match;
                 }
             }
+
+            if let Some((earliest_match_index, _)) = earliest_match {
+                if !accumulator.iter().any(|i| {
+                    i.is_some_and(|index| index < earliest_match_index)
+                }) {
+                    break;
+                }
+            }
         }
         earliest_match
     }

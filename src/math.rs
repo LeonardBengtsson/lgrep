@@ -157,6 +157,14 @@ impl NfaVector {
         }
     }
 
+    pub fn iter(&self) -> impl Iterator<Item = &Option<usize>> {
+        self.el.iter()
+    }
+
+    pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut Option<usize>> {
+        self.el.iter_mut()
+    }
+
     pub fn enumerate_iter(
         &self,
     ) -> impl Iterator<Item = (usize, &Option<usize>)> {
